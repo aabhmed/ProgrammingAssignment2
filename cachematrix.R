@@ -1,43 +1,43 @@
-These two function create, store and recall a matrix and its inverse in/from cache   
-2 
+1 ## The code creates the following two functions a) makeCacheMatrix and b) cacheSolve 
+2  
+3 ## Purpose of the makeCacheMatrix function is to create a custom matrix capable executing four functions
+4 ## The following functions are exectued by makeCacheMatrix
+5 ## (i)   set stores the matrix in cache
+6 ## (ii)  get recall the matrix
+7 ## (iii) setInverse stores the inverse of the original matrix
+8 ## (iv)  getinverse recall the inverse of the original matrix  
  
-3 
  
-4 ## makeCacheMatrix creates custom matrix type capable of running four functions 
-5 ## set stores the matrix in cache, get recalls the matrix 
-6 ## setInverse and getInverse do the same but for the inverse of the original matrix 
-7 
+9 makeCacheMatrix <- function(x = matrix()){     
+10   m <- NULL 
+11   set <- function(y){ 
+12     x <<- y   
+13     m <<- NULL #store matrix in cache  
+14   } 
+15   get <- function() x #get matrix 
+16   setInverse <- function(solve) m<<- solve #set inverse matrix 
+17   getInverse <- function() m #get inverse matrix 
+18   list(set = set, get = get, 
+19        setInverse = setInverse, 
+20        getInverse = getInverse)  ## create list of functions 
+21   } 
+22 
  
-8 makeCacheMatrix <- function(x = matrix()){     
-9   m <- NULL 
-10   set <- function(y){ 
-11     x <<- y   
-12     m <<- NULL #store matrix in cache  
-13   } 
-14   get <- function() x #get matrix 
-15   setInverse <- function(solve) m<<- solve #set inverse matrix 
-16   getInverse <- function() m #get inverse matrix 
-17   list(set = set, get = get, 
-18        setInverse = setInverse, 
-19        getInverse = getInverse)  ## create list of functions 
-20 } 
-21 
+23 ## Pupose of the cacheSolve function is to process the custom matrix type created by the makeCacheMatrix function 
+24 ## and calculate the inverse matrix of the custom matrix 
+25 ## before inverse matrix is create a check is performed to determine if the calculation has been done before 
+26 ## if the calculation has been done, data is recalled from the cache. If the calculation has not been performed 
+27 ## the inverse matrix is calculated and stored in the cache 
+28 
  
-22 ## cacheSolve take a custom matrix type created by the makeCacheMatrix function 
-23 ## and calculates the inverse matrix of it 
-24 ## but first it checks to see if the calculation has been done before 
-25 ## if it has been done before it recalls the data from the cache. If it has not been done  
-26 ## before it calculates the inverse matrix then store it in the cache 
-27 
- 
-28 cacheSolve <- function(x, ...) { 
-29   ## Return a matrix that is the inverse of 'x' 
-30   m <- x$getInverse()                 #query the x matrix's cache 
-31   if(!is.null(m)){                    #if there is a cache the inverse has been previously calculated 
-32     message("getting cached data")    # sent message indicating this is just cache  
-33     return(m)                         # return the cache   
-34   } 
-35   data <- x$get()                     # get the matrix used by makeCacheMatrix function  
-36   m <- solve(data, ...)               # calculate the inverse of the matrix 
-37   x$setInverse(m)                     # store the inverse matrix in cache using the makeCacheMatrix set function 
-38 } 
+29 cacheSolve <- function(x, ...) { 
+30   ## Return a matrix that is the inverse of 'x' 
+31   m <- x$getInverse()                 #query the x matrix's cache 
+32   if(!is.null(m)){                    #if there is a cache the inverse has been previously calculated 
+33     message("getting cached data")    # sent message indicating this is just cache  
+35     return(m)                         # return the cache   
+36   } 
+37   data <- x$get()                     # get the matrix used by makeCacheMatrix function  
+38   m <- solve(data, ...)               # calculate the inverse of the matrix 
+39   x$setInverse(m)                     # store the inverse matrix in cache using the makeCacheMatrix set function 
+40   } 
